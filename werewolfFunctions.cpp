@@ -179,25 +179,13 @@ void doWerewolfNextMove(const int playerX, const int playerY)
 			while(true)
             {
                 srand (time(NULL));
-                bool randomlyPickX (int result) // fixed EREZ: correct but incomplete; how do you convert an int (right side) to a bool (left side)?
-				{
-					result = rand() % 2;
-					if (result == 0)
-					{
-						return false;
-					}
-					else
-					{
-						return true;
-					}
-				}
-				
-				if (randomlyPickX())
+
+				if( rand() % 2 == 1 )
                 {
                     werewolfX = possibleNextX;
                     break;
                 }
-                else if (!randomlyPickX())
+                else
                 {
                     werewolfY = possibleNextY;
                     break;
@@ -217,7 +205,7 @@ bool isOpenSpaceForWerewolf(const int x, const int y)
             mapSquare == MAP_SQUARE_PEBBLES   || // EREZ: correct
             mapSquare == MAP_SQUARE_PLANK     || // EREZ: correct
             mapSquare == MAP_SQUARE_PLANK_SET || // EREZ: correct
-            mapSquare == MAP_SQUARE_ROPE      )  // EREZ: correct
+            mapSquare == MAP_SQUARE_ROPE      ); // EREZ: correct
 		// fixed EREZ: no, you MUST remove this part of the condition for it to work correctly
 }
 

@@ -255,8 +255,6 @@ void doUse(const int x, const int y, const char lookingDirection)
 	// start with default message
 	lastMessage = "You can't use that here.";
 
-//	int itemX = getLookingAtX(x, lookingDirection);
-//	int itemY = getLookingAtY(y, lookingDirection);
     int itemX, itemY;
     getLookingAtLocation(x, y, playerSymbol, itemX, itemY); // EREZ: correct
 
@@ -293,10 +291,9 @@ void doUse(const int x, const int y, const char lookingDirection)
 	else if (itemToUse == MAP_SQUARE_SLINGSHOT) //Fix the if statement so that the Boolean expression in the if statement is true if the player is looking at the werewolf AND the werewolf is within shooting range of the slingshot.
 	{
         int actionableX, actionableY;
-        getFarthestActionableLocation(SLINGSHOT_DISTANCE, false, actionableX, actionableY); // EREZ: no, there is no need for this here
 		if (playerIsLookingAt(werewolfX, werewolfY) // EREZ: correct
 			&& // EREZ: correct
-			actionableX == werewolfX && actionableY == werewolfY ) // EREZ: no, read the instructions carefully Shawn: WITHIN shooting range can mean your actionable distance should be larger than and equal to the coordinate?
+            ( abs(playerX - werewolfX) + abs(playerY-werewolfY) ) <= SLINGSHOT_DISTANCE ) // EREZ: no, read the instructions carefully Shawn: WITHIN shooting range can mean your actionable distance should be larger than and equal to the coordinate?
 		{
 			inventoryUse(MAP_SQUARE_PEBBLE);
 			int damage = damage = 1 + rand() % SLINGSHOT_MAX_DAMAGE; // EREZ: correct
@@ -398,8 +395,8 @@ void doLoadGame(const char slot, const bool loadDefaultMapOnFailure)
 		return;
 	}
 
-	string fileName = "gameSlot";
-//	string fileName = "/Users/haley/c/haleytry/gameSlot";
+//	string fileName = "gameSlot";
+	string fileName = "/Users/haley/c/haleytry/gameSlot";
 	fileName += slot;
 	fileName += ".txt";
 	if (!loadGame(fileName))

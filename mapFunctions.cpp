@@ -187,13 +187,12 @@ bool loadGame(string fileName)
                         i--;
                         continue;
                     }
-					
-					
+
 					// EREZ: also, you need to figure out what to replace the 0 with. the answer is not just i, but i is involved in the answer.
 
                     //check this part please
-                   int row = i - mapWidth + mapHeight;  /* added adrian MISSING CODE - FIX THIS LINE *///
-                    int col = i - mapHeight + mapWidth; /* added adrian MISSING CODE - FIX THIS LINE */
+                    int row = (i - (i % mapWidth)) / mapWidth;  /* added adrian MISSING CODE - FIX THIS LINE *///
+                    int col = i % mapWidth; /* added adrian MISSING CODE - FIX THIS LINE */
                     tempMap[row][col] = buffer;
                     charactersRead++;
                 
