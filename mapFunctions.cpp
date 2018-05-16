@@ -111,7 +111,7 @@ bool clearMapSquare(const int x, const int y, const char currentValue)
 	return setMapSquare(x, y, currentValue, MAP_SQUARE_EMPTY);
 }
 
-bool isOpenSpace(const int x, const int y)
+bool isOpenSpace(const int x, const int y) // EREZ: correct
 {
 	char mapSquare = getMapSquare(x, y);
 	return (mapSquare == MAP_SQUARE_EMPTY     ||
@@ -119,7 +119,7 @@ bool isOpenSpace(const int x, const int y)
 			mapSquare == MAP_SQUARE_ROPE_TIED);
 }
 
-bool canSeePast(const int x, const int y)
+bool canSeePast(const int x, const int y) // EREZ: correct
 {
 	char mapSquare = getMapSquare(x, y);
 	//added CORRECT
@@ -176,36 +176,27 @@ bool loadGame(string fileName)
 			char tempMap[MAP_MAX_WIDTH_HEIGHT][MAP_MAX_WIDTH_HEIGHT];
 			int charactersRead = 0;
 
-			for (int row = 0; row<mapWidth; row++)
+			for (int i = 0; i < mapWidth * mapHeight; i++)
 			{
-			    for (int col=0; col<mapHeight; col++) {
-                    // MISSING CODE - 1 line
 
-                    //he said that this is fine the buffer =   BUT I am missing something. I think is file;
-
-                    buffer = file.get();
-
-
-                    // EREZ: look below, you are storing values INTO tempMap, so you shouldn't be reading from tempMap here.
-                    // EREZ: instead, think about where you are reading information from in this part of the code.
-                    // EREZ: the player info, the map, the inventory - where are they coming from?
-
-                    //                tempMap[mapHeight][mapWidth];
+                    buffer = file.get(); // EREZ: correct
 
                     if (file.fail()) {
                         break;
                     } else if (buffer == '\0' || buffer == '\n' || buffer == '\r') {
-                        col--;
+                        i--;
                         continue;
                     }
+					
+					
+					// EREZ: also, you need to figure out what to replace the 0 with. the answer is not just i, but i is involved in the answer.
 
                     //check this part please
-//                    int row = i;  /* added adrian MISSING CODE - FIX THIS LINE */
-//
-//                    int col = i; /* added adrian MISSING CODE - FIX THIS LINE */
+                   int row = i - mapWidth + mapHeight;  /* added adrian MISSING CODE - FIX THIS LINE *///
+                    int col = i - mapHeight + mapWidth; /* added adrian MISSING CODE - FIX THIS LINE */
                     tempMap[row][col] = buffer;
                     charactersRead++;
-                }
+                
 			}
 
 			if (charactersRead == mapWidth * mapHeight)
@@ -270,8 +261,7 @@ bool loadGame(string fileName)
 	return success;
 }
 
-bool saveGame(string fileName, const int playerX, const int playerY, const char lookingDirection, const char inventoryItems[], const int inventoryValues[], const int inventoryLength, const int werewolfX, const int werewolfY,
-              const int werewolfHealth, const int werewolfStunCount) //ADDED
+bool saveGame(string fileName, const int playerX, const int playerY, const char lookingDirection, const char inventoryItems[], const int inventoryValues[], const int inventoryLength, const int werewolfX, const int werewolfY, const int werewolfHealth, const int werewolfStunCount) // EREZ: correct
 {
 	bool success = false;
 
@@ -280,14 +270,18 @@ bool saveGame(string fileName, const int playerX, const int playerY, const char 
 	if (!file.fail())
 	{
 		// write map dimensions and player location and other necessary information
-		file << MAP_WIDTH << ' ' << MAP_HEIGHT << ' ' << playerX << ' ' << playerY << ' ' << lookingDirection  << werewolfX << werewolfY << werewolfHealth << werewolfStunCount << endl; /*added Adrian AGAIN */
-
+		file << MAP_WIDTH << ' ' << MAP_HEIGHT << ' ' << playerX << ' ' << playerY << ' ' << lookingDirection
+        << ' ' << werewolfX << ' ' << werewolfY << ' ' << werewolfHealth << ' ' << werewolfStunCount << ' '
+        << endl;
+        /*added Adrian AGAIN */
+    
+		
 		// write map
 		for (int i = 0; i < MAP_HEIGHT; i++)
 		{
 			for (int j = 0; j < MAP_WIDTH; j++)
 			{
-                file << MAP[i][j];  //ADDED  erez said to fix it
+                file << MAP[i][j]; // EREZ: correct
                 
 			}
 			file << endl;
@@ -372,7 +366,7 @@ bool twoLocationsAreVisibleToEachOther(const int firstX, const int firstY, const
 		int direction = sign(secondY - firstY);
 		for (int i = firstY + direction; i != secondY; i += direction)
 		{
-            if( !canSeePast(firstX, i) )
+            if( !canSeePast(firstX, i) ) // EREZ: correct
 			{
 				areVisible = false;
 				break;
@@ -384,7 +378,7 @@ bool twoLocationsAreVisibleToEachOther(const int firstX, const int firstY, const
 		int direction = sign(secondX - firstX);
 		for (int i = firstX + direction; i != secondX; i += direction)
 		{
-            if( !canSeePast(i, firstY) )
+            if( !canSeePast(i, firstY) ) // EREZ: correct
             {
 				areVisible = false;
 				break;

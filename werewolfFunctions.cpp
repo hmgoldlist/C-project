@@ -57,7 +57,7 @@ bool skipWerewolfsTurn = false;
 bool isOpenSpaceForWerewolf(const int, const int);
 //the werewolf can also walk over key, pebble, pebbles, plank, plank_set, and rope squares. The werewolf cannot walk over tied ropes.
 
-bool werewolfIsAlive() // WEREWOLF ALIVE
+bool werewolfIsAlive() // EREZ: correct
 {
 	/* GOOD CODE */
 	// return True only if the werewolf has health greater than zero.
@@ -71,7 +71,7 @@ bool werewolfIsAlive() // WEREWOLF ALIVE
     }
 }
 
-bool werewolfIsStunned()
+bool werewolfIsStunned() // EREZ: correct
 {
 	/* GOOD CODE */
 	// return true only if the werewolf's stun count is greater than zero
@@ -85,7 +85,7 @@ bool werewolfIsStunned()
 	}
 }
 
-char getWerewolfSymbol()
+char getWerewolfSymbol() // EREZ: correct
 {
 	/* GOOD CODE */
 	//return a different symbol depending on whether the werewolf is alive but not stunned, alived and stunned, or dead.
@@ -103,7 +103,7 @@ char getWerewolfSymbol()
 	}
 }
 
-int doWerewolfHit(const int hitpoints)
+int doWerewolfHit(const int hitpoints) // EREZ: correct
 {
 	/* GOOD CODE */
 	//a. Subtract hitpoints from werewolfHealth.
@@ -130,16 +130,16 @@ void doWerewolfNextMove(const int playerX, const int playerY)
 	//c.If werewolfStunnedCount is greater than zero, subtract one from werewolfStunnedCount and stop executing this function.
 
 	/* GOOD CODE */
-	if (!werewolfIsAlive()) //werewolf is dead
+	if (!werewolfIsAlive()) // EREZ: correct
 	{
 		return;
 	}
-    else if (skipWerewolfsTurn)
+    else if (skipWerewolfsTurn) // EREZ: correct
     {
-        skipWerewolfsTurn = false;
+        skipWerewolfsTurn = false; // EREZ: correct
         return;
     }
-	else if (werewolfIsStunned()) //werewolf is stunned
+	else if (werewolfIsStunned())  // EREZ: correct
 	{
 		werewolfStunnedCount--;
         return;
@@ -179,13 +179,25 @@ void doWerewolfNextMove(const int playerX, const int playerY)
 			while(true)
             {
                 srand (time(NULL));
-                bool randomlyPickX = (rand()%2);
-                if (randomlyPickX == 1)
+                bool randomlyPickX (int result) // fixed EREZ: correct but incomplete; how do you convert an int (right side) to a bool (left side)?
+				{
+					result = rand() % 2;
+					if (result == 0)
+					{
+						return false;
+					}
+					else
+					{
+						return true;
+					}
+				}
+				
+				if (randomlyPickX())
                 {
                     werewolfX = possibleNextX;
                     break;
                 }
-                else if (randomlyPickX == 0)
+                else if (!randomlyPickX())
                 {
                     werewolfY = possibleNextY;
                     break;
@@ -199,14 +211,14 @@ void doWerewolfNextMove(const int playerX, const int playerY)
 bool isOpenSpaceForWerewolf(const int x, const int y)
 {
     char mapSquare = getMapSquare(x, y);
-    return (mapSquare == MAP_SQUARE_EMPTY     ||
-            mapSquare == MAP_SQUARE_KEY       ||
-            mapSquare == MAP_SQUARE_PEBBLE    ||
-            mapSquare == MAP_SQUARE_PEBBLES   ||
-            mapSquare == MAP_SQUARE_PLANK     ||
-            mapSquare == MAP_SQUARE_PLANK_SET ||
-            mapSquare == MAP_SQUARE_ROPE      ||
-            mapSquare != MAP_SQUARE_ROPE_TIED);
+    return (mapSquare == MAP_SQUARE_EMPTY     || // EREZ: correct
+            mapSquare == MAP_SQUARE_KEY       || // EREZ: correct
+            mapSquare == MAP_SQUARE_PEBBLE    || // EREZ: correct
+            mapSquare == MAP_SQUARE_PEBBLES   || // EREZ: correct
+            mapSquare == MAP_SQUARE_PLANK     || // EREZ: correct
+            mapSquare == MAP_SQUARE_PLANK_SET || // EREZ: correct
+            mapSquare == MAP_SQUARE_ROPE      )  // EREZ: correct
+		// fixed EREZ: no, you MUST remove this part of the condition for it to work correctly
 }
 
 // DO NOT CHANGE OR REMOVE THE FOLLOWING LINE

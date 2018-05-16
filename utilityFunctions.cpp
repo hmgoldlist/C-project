@@ -25,7 +25,7 @@ int min(const int a, const int b)
 	return (a <= b ? a : b);
 }
 
-int abs(const int a)
+int abs(const int a) // EREZ: correct
 {
 	// returns the absolute value of a
 	// for example: abs(3) returns 3; abs(-3) returns 3; abs(0) returns 0
@@ -37,7 +37,7 @@ int abs(const int a)
 	return a;
 }
 
-int sign(const int a)
+int sign(const int a) // EREZ: correct
 {
 	// returns the sign of a:
 	// 0 if a is 0; 1 if a is positive; -1 if a is negative

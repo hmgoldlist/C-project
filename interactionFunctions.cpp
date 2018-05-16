@@ -147,7 +147,7 @@ void doCommand(const char command)
 void doLook(const int x, const int y, const char lookingDirection)
 {
     int itemX, itemY;
-    getLookingAtLocation(x, y, playerSymbol, itemX, itemY);
+    getLookingAtLocation(x, y, playerSymbol, itemX, itemY); // EREZ: correct
 	char mapSquare = getMapSquare(itemX, itemY);
 	switch(mapSquare)
 	{
@@ -198,7 +198,7 @@ void doTake(const int x, const int y, const char lookingDirection)
 //	int itemY = getLookingAtY(y, lookingDirection);
 
     int itemX, itemY;
-    getLookingAtLocation(x, y, playerSymbol, itemX, itemY);
+    getLookingAtLocation(x, y, playerSymbol, itemX, itemY); // EREZ: correct
 
 	char mapSquare = getMapSquare(itemX, itemY);
 	switch(mapSquare)
@@ -258,7 +258,7 @@ void doUse(const int x, const int y, const char lookingDirection)
 //	int itemX = getLookingAtX(x, lookingDirection);
 //	int itemY = getLookingAtY(y, lookingDirection);
     int itemX, itemY;
-    getLookingAtLocation(x, y, playerSymbol, itemX, itemY);
+    getLookingAtLocation(x, y, playerSymbol, itemX, itemY); // EREZ: correct
 
 	char mapSquare = getMapSquare(itemX, itemY);
 
@@ -290,14 +290,16 @@ void doUse(const int x, const int y, const char lookingDirection)
 		inventoryUse(itemToUse);
 		lastMessage = "You drop a pebble into the chasm, counting the seconds until it hits the bottom. You hear nothing.";
 	}
-	else if (itemToUse == MAP_SQUARE_SLINGSHOT)
+	else if (itemToUse == MAP_SQUARE_SLINGSHOT) //Fix the if statement so that the Boolean expression in the if statement is true if the player is looking at the werewolf AND the werewolf is within shooting range of the slingshot.
 	{
         int actionableX, actionableY;
-        getFarthestActionableLocation(SLINGSHOT_DISTANCE, false, actionableX, actionableY);
-		if (playerIsLookingAt(werewolfX, werewolfY) && actionableX == werewolfX && actionableY == werewolfY )
+        getFarthestActionableLocation(SLINGSHOT_DISTANCE, false, actionableX, actionableY); // EREZ: no, there is no need for this here
+		if (playerIsLookingAt(werewolfX, werewolfY) // EREZ: correct
+			&& // EREZ: correct
+			actionableX == werewolfX && actionableY == werewolfY ) // EREZ: no, read the instructions carefully Shawn: WITHIN shooting range can mean your actionable distance should be larger than and equal to the coordinate?
 		{
 			inventoryUse(MAP_SQUARE_PEBBLE);
-			int damage = damage = 1 + rand() % SLINGSHOT_MAX_DAMAGE;
+			int damage = damage = 1 + rand() % SLINGSHOT_MAX_DAMAGE; // EREZ: correct
 			doWerewolfHit(damage);
 
 			string damageString = to_string(damage);
@@ -338,10 +340,10 @@ void doUse(const int x, const int y, const char lookingDirection)
 	}
 }
 
-void doCheckForPlayerDamage()
+void doCheckForPlayerDamage() // fixed EREZ: correct EXCEPT for your use of the number 4 below; see previous comment
 {
     //Fix the first if statement at the top of the function. There's a hint in the comment. Also, the werewolf must still be alive in order to catch the player.
-	if (werewolfIsAlive() && werewolfX == playerX && werewolfY == playerY ) // EREZ: good start, but incomplete
+	if (werewolfIsAlive() && werewolfX == playerX && werewolfY == playerY ) // EREZ: correct
 	{
         //Fix the code int damage = 0 /* MISSING CODE */; so that damage is a value between 1 and WEREWOLF_MAX_DAMAGE (inclusive).
 		int damage = 1 + rand() % WEREWOLF_MAX_DAMAGE; // EREZ: correct
@@ -354,7 +356,7 @@ void doCheckForPlayerDamage()
 			const int VERBS_COUNT = 4;
 			const string VERBS[VERBS_COUNT] = { "scratched", "clawed", "kicked", "bitten" };
             //Fix the code string verbToUse = VERBS[0 /* MISSING CODE */]; so that it randomly selects one of VERBS_COUNT strings from the array VERBS.
-			string verbToUse = VERBS[rand()%4]; // EREZ: instead of the number 4, which constant should you be using?
+			string verbToUse = VERBS[rand()%VERBS_COUNT]; // fixed EREZ: instead of the number 4, which constant should you be using?
 			
 			string damageString = to_string(damage);
             //Fix the code lastMessage += " of damage and has been teleported to a random location in the maze."; so that if the werewolf cannot be teleported elsewhere the player is notified.
@@ -363,11 +365,11 @@ void doCheckForPlayerDamage()
 			lastMessage += " by the werewolf. He dealt ";
 			lastMessage += damageString;
 			lastMessage += (damage == 1 ? " point" : " points");
-			if (werewolfRelocated) // EREZ: the function has already been called above; you need to use the result of that function call.
+			if (werewolfRelocated) // EREZ: correct
 			{
 				lastMessage += " of damage and has been teleported to a random location in the maze.";
 			}
-			else // EREZ: take out the if statement
+			else 
 			{
 				lastMessage += " of damage and has not been teleported.";
 			}

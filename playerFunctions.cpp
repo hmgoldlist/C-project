@@ -86,8 +86,9 @@ int getLookingAtY(const int currentY, const char currentSymbol)
 }
 */
 
-void getLookingAtLocation(const int currentX, const int currentY, const char currentSymbol, int &lookingAtX, int &lookingAtY)
+void getLookingAtLocation(const int currentX, const int currentY, const char currentSymbol, int &lookingAtX, int &lookingAtY) // EREZ: correct
 {
+	 // EREZ: correct
 	switch(currentSymbol)
 	{
 		case LOOKING_LEFT:
@@ -341,6 +342,8 @@ char convertInventoryIndexToItemChar(const int index)
 
 void getFarthestActionableLocation(const int maxActionDistance, const bool mustBeEmpty, int &locationX, int &locationY)
 {
+	// EREZ: congrats, this code works!
+	
 	locationX = playerX;
 	locationY = playerY;
 	int nextX, nextY, farthestEmptyX = playerX, farthestEmptyY = playerY;
@@ -379,7 +382,7 @@ void getFarthestActionableLocation(const int maxActionDistance, const bool mustB
                 break;
 		}
 
-        if( getMapSquare(locationX, locationY) == MAP_SQUARE_EMPTY ){
+        if( getMapSquare(locationX, locationY) == MAP_SQUARE_EMPTY ){ // EREZ: correct
             farthestEmptyX = locationX;
             farthestEmptyY = locationY;
         }
@@ -392,7 +395,7 @@ void getFarthestActionableLocation(const int maxActionDistance, const bool mustB
 	}
 }
 
-bool playerIsLookingAt(const int x, const int y)
+bool playerIsLookingAt(const int x, const int y) // EREZ: correct
 {
     int lookX, lookY, i;
     getLookingAtLocation (playerX, playerY, playerSymbol , lookX, lookY);
