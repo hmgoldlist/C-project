@@ -1,0 +1,14 @@
+
+.DS_Store
+
+cmake-build-debug*
+
+.idea*
+
+.idea/*
+
+CMakeLists.txt
+
+.idea/vcs.xml
+.idea/vcs.xml
+.idea/vcs.xml
